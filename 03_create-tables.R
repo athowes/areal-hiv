@@ -33,7 +33,7 @@ cv_files <- list.files(
 full_cv_df <- do.call("rbind", lapply(cv_files, FUN = function(file) {
   cv <- readRDS(file = paste0("data/", ctx_ver, "/cv/", file))
   meta_data <- strsplit(file, '[/_.]')
-
+  
   df <- cbind(
     geometry = meta_data[[1]][1],
     inf_model = meta_data[[1]][2],
@@ -43,8 +43,16 @@ full_cv_df <- do.call("rbind", lapply(cv_files, FUN = function(file) {
       cols = everything()
     )
   )
+  
+  if(length(meta_data[[1]]) > 4) {
+    index_string <- strsplit(meta_data[[1]][4], "-")
+    index <- as.numeric(index_string[[1]])
+    out <- cbind(cbind(id = index[1]:index[2], df))
+  } else {
+    out <- cbind(id = 1:nrow(df), df)
+  }
 
-  return(cbind(id = 1:nrow(df), df))
+  return(out)
 }))
 
 cv_df <- full_cv_df %>%
@@ -91,5 +99,4 @@ fit_df <- do.call("rbind", lapply(fit_files, FUN = function(file) {
 }))
 
 # Supplementary material
-metric_table(df, "crps", latex = FALSE)
-metric_table(df, "mae", latex = FALSE)
+metric_table(df, "crps", latex = TRUE)
