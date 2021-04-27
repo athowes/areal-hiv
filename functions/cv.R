@@ -45,7 +45,7 @@ cross_validate_sets <- function(id, inf_model, fn, type = "LOO", indices = NA, c
     FUN = function(x) held_out_metrics(fit = x$fit, sf = sf, i = x$predict_on, S = S)
   )))
 
-  res <- scores
+  res <- list(scores = scores)
 
   safe_saveRDS(
     object = res, 
