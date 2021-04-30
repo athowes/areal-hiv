@@ -8,10 +8,10 @@ safe_saveRDS <- function(object, output_dir, file) {
 
 rename_df <- function(df) {
   df$geometry <- recode_factor(df$geometry,            
-    "CI2012DHS" = "2012 DHS Cote d'Ivoire", 
-    "MW2015DHS" = "2015 DHS Malawi",
-    "TZ2012AIS" = "2012 AIS Tanzania",
-    "ZW2015DHS" = "2015 DHS Zimbabwe"
+    "CI2012DHS" = "Cote d'Ivoire 2012 DHS", 
+    "MW2015DHS" = "Malawi 2015 DHS",
+    "TZ2012AIS" = "Tanzania 2012 AIS",
+    "ZW2015DHS" = "Zimbabwe 2015 DHS"
   )
   
   df$inf_model <- recode_factor(df$inf_model,
