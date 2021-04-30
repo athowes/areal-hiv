@@ -53,19 +53,16 @@ full_cv_df <- do.call("rbind", lapply(cv_files, FUN = function(file) {
   }
 
   return(out)
-}))
+})) %>%
+  rename_df()
 
 cv_df <- full_cv_df %>%
   group_by(geometry, inf_model, type) %>%
-  summarise(n = n(), across(mse:lds, list(mean = mean, se = ~ sd(.x) / sqrt(length(.x))))) %>%
-  mutate(type = recode_factor(type, "loo" = "LOO", "sloo" = "SLOO")) %>%
-  rename_df()
+  summarise(n = n(), across(mse:lds, list(mean = mean, se = ~ sd(.x) / sqrt(length(.x)))))
 
 cv_id_df <- full_cv_df %>%
   group_by(geometry, inf_model, type, id) %>%
-  summarise(n = n(), across(mse:lds, list(mean = mean, se = ~ sd(.x) / sqrt(length(.x))))) %>%
-  mutate(type = recode_factor(type, "loo" = "LOO", "sloo" = "SLOO")) %>%
-  rename_df()
+  summarise(n = n(), across(mse:lds, list(mean = mean, se = ~ sd(.x) / sqrt(length(.x)))))
 
 # This for tab_spanner_delim later on
 cv_df_wider <-  cv_df %>%

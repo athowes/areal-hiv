@@ -15,14 +15,19 @@ rename_df <- function(df) {
   )
   
   df$inf_model <- recode_factor(df$inf_model,
-  "constant" = "Constant",
-  "iid" = "IID", 
-  "icar" = "Besag", 
-  "bym" = "BYM2", 
-  "fck" = "FCK", 
-  "ck" = "CK", 
-  "fik" = "FIK",
-  "ik" = "IK"
+    "constant" = "Constant",
+    "iid" = "IID", 
+    "icar" = "Besag", 
+    "bym" = "BYM2", 
+    "fck" = "FCK", 
+    "ck" = "CK", 
+    "fik" = "FIK",
+    "ik" = "IK"
+  )
+  
+  df$type <- recode_factor(df$type, 
+    "loo" = "LOO", 
+    "sloo" = "SLOO"
   )
   
   return(df)
