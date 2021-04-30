@@ -37,6 +37,32 @@ dynamite_plot <- function(df, metric, title) {
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 }
 
+# Boxplots
+boxplot <- function(df, metric, title) {
+  
+  .calc_boxplot_stat <- function(x) {
+    coef <- 1.5
+    n <- sum(!is.na(x))
+    stats <- quantile(x, probs = c(0.0, 0.25, 0.5, 0.75, 1.0))
+    names(stats) <- c("ymin", "lower", "middle", "upper", "ymax")
+    iqr <- diff(stats[c(2, 4)])
+    outliers <- x < (stats[2] - coef * iqr) | x > (stats[4] + coef * iqr)
+    if (any(outliers)) {
+      stats[c(1, 5)] <- range(c(stats[2:4], x[!outliers]), na.rm = TRUE)
+    }
+    return(stats)
+  }
+  
+  ggplot(df, aes(x = inf_model, y = .data[[metric]], fill = type)) +
+    stat_summary(fun.data = .calc_boxplot_stat, geom = "boxplot", position = position_dodge(), width = 0.5, alpha = 0.9, show.legend = FALSE) +
+    stat_summary(fun = "mean", geom = "point", position = position_dodge(width = 0.5), alpha = 0.7, show.legend = FALSE) +
+    facet_wrap(~geometry, scales = "free", nrow = 2) +
+    labs(x = "Inferential model", y = title, fill = "CV method") +
+    scale_fill_manual(values = cbpalette) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+          legend.position = "bottom")
+}
+
 # Scoropleths
 scoropleth <- function(df_id, metric, g, t, sf) {
   metric_mean <- paste0(metric, "_mean")

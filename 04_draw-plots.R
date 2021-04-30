@@ -32,8 +32,8 @@ dev.off()
 
 # fig62 -------------------------------------------------------------------
 
-tikz(file = "plots/fig62.tex", width = 6, height = 4)
-dynamite_plot(cv_df, metric = "crps", title = "Average CRPS") + theme_adam
+tikz(file = "plots/fig62.tex", width = 6, height = 5)
+boxplot(full_cv_df, metric = "crps", title = "CRPS") + theme_adam
 dev.off()
 
 system("cd plots && lualatex compile_fig62.tex")
@@ -43,6 +43,7 @@ system("cd plots && lualatex compile_fig62.tex")
 tikz(file = "plots/figB1.tex", width = 6.25, height = 8.5)
 scoropleth(cv_id_df, metric = "crps", g = "2012 DHS Cote d'Ivoire", t = "LOO", sf = ci) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB1.tex")
 
 # figB2 -------------------------------------------------------------------
@@ -50,6 +51,7 @@ system("cd plots && lualatex compile_figB1.tex")
 tikz(file = "plots/figB2.tex", width = 6.25, height = 8.5)
 scoropleth(cv_id_df, metric = "crps", g = "2015 DHS Malawi", t = "LOO", sf = mw) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB2.tex")
 
 # figB3 -------------------------------------------------------------------
@@ -57,6 +59,7 @@ system("cd plots && lualatex compile_figB2.tex")
 tikz(file = "plots/figB3.tex", width = 6.25, height = 8.5)
 scoropleth(cv_id_df, metric = "crps", g = "2012 AIS Tanzania", t = "LOO", sf = tz) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB3.tex")
 
 # figB4 -------------------------------------------------------------------
@@ -64,6 +67,7 @@ system("cd plots && lualatex compile_figB3.tex")
 tikz(file = "plots/figB4.tex", width = 6.25, height = 8.5)
 scoropleth(cv_id_df, metric = "crps", g = "2015 DHS Zimbabwe", t = "LOO", sf = zw) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB4.tex")
 
 # figB5 -------------------------------------------------------------------
@@ -71,6 +75,7 @@ system("cd plots && lualatex compile_figB4.tex")
 tikz(file = "plots/figB5.tex", width = 6.25, height = 8.5)
 prev_ladder(fit_df, id = "CI2012DHS", level = 2) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB5.tex")
 
 # figB6 -------------------------------------------------------------------
@@ -78,6 +83,7 @@ system("cd plots && lualatex compile_figB5.tex")
 tikz(file = "plots/figB6.tex", width = 6.25, height = 8.5)
 prev_ladder(fit_df, id = "MW2015DHS", level = 1) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB6.tex")
 
 # figB7 -------------------------------------------------------------------
@@ -85,6 +91,7 @@ system("cd plots && lualatex compile_figB6.tex")
 tikz(file = "plots/figB7.tex", width = 6.25, height = 8.5)
 prev_ladder(fit_df, id = "TZ2012AIS", level = 2) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB7.tex")
 
 # figB8 -------------------------------------------------------------------
@@ -92,6 +99,7 @@ system("cd plots && lualatex compile_figB7.tex")
 tikz(file = "plots/figB8.tex", width = 6.25, height = 8.5)
 prev_ladder(fit_df, id = "ZW2015DHS", level = 2) + theme_adam_minimal
 dev.off()
+
 system("cd plots && lualatex compile_figB8.tex")
 
 # Experimental ------------------------------------------------------------
