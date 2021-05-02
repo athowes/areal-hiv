@@ -38,3 +38,10 @@ rename_df <- function(df) {
   
   return(df)
 }
+
+rhat_check <- function(fits, threshold) {
+  for(i in seq_along(fits)) {
+    print(paste0("For model ", i, " the following parameters have Rhat greater than ", threshold, ": "))
+    print(which(rstan::summary(fits[[i]])[["summary"]][, "Rhat"] > threshold))
+  }
+}

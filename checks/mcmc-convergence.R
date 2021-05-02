@@ -10,12 +10,5 @@ index <- sapply(meta_data, function(list) sum(list %in% c("ck", "ik")))
 stan_fit_files <- fit_files[as.logical(index)]
 fits <- lapply(stan_fit_files, function(file) readRDS(file = paste0("data/", ctx_ver, "/fits/", file)))
 
-rhat_check <- function(threshold) {
-  for(i in seq_along(fits)) {
-    print(paste0("For model ", i, " the following parameters have Rhat greater than ", threshold, ": "))
-    print(which(rstan::summary(fits[[i]])[["summary"]][, "Rhat"] > threshold))
-  }
-}
-
-rhat_check(1.025)
-rhat_check(1.05)
+rhat_check(fits, 1.025)
+rhat_check(fits, 1.05)
