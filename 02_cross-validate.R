@@ -2,23 +2,16 @@
 
 ids <- c("MW2015DHS", "ZW2015DHS", "TZ2012AIS", "CI2012DHS")
 types <- c("LOO", "SLOO")
-inf_models <- c("constant", "iid", "icar", "bym", "fck", "fik")
-fns <- list(constant_inla, iid_inla, besag_inla, bym2_inla, fck_inla, fik_inla)
+inf_models <- c("constant_inla", "iid_inla", "besag_inla", "bym2_inla", "fck_inla", "fik_inla")
 
 pars <- rlist::list.expand(
   id = ids,
   type = types,
   inf_model = inf_models,
-  fn = NA,
   ctx_ver = NA
 )
 
-# Add fn entries to list of lists
-k <- length(ids) * length(types)
-for(i in seq_along(pars)) {
-  pars[[i]]$fn <- rep(fns, each = k)[[i]]
-  pars[[i]]$ctx_ver <- ctx_ver
-}
+for(i in seq_along(pars)) pars[[i]]$ctx_ver <- ctx_ver
 
 assign(
   paste0("pars_02_inla_", ctx_ver),
@@ -30,7 +23,7 @@ assign(
   obj$enqueue_bulk(pars, cross_validate_id, do_call = TRUE)
 )
 
-rm(ids, types, inf_models, fns, pars, k, i)
+rm(ids, types, inf_models, pars, i)
 
 # Slower Stan models: add more jobs here
 
@@ -38,24 +31,18 @@ stan_pars_setup <- function(ids, index) {
   ids <- ids
   index <- index
   types <- c("LOO", "SLOO")
-  inf_models <- c("ck", "ik")
-  fns <- list(ck_stan, ik_stan)
+  inf_models <- c("ck_stan", "ik_stan")
   
   pars <- rlist::list.expand(
     id = ids,
     indices = index,
     type = types,
     inf_model = inf_models,
-    fn = NA,
     ctx_ver = NA
   )
   
-  k <- length(ids) * length(types) * length(index)
-  for(i in seq_along(pars)) {
-    pars[[i]]$fn <- rep(fns, each = k)[[i]]
-    pars[[i]]$ctx_ver <- ctx_ver
-  }
-  
+  for(i in seq_along(pars)) pars[[i]]$ctx_ver <- ctx_ver
+
   return(pars)
 }
 
@@ -76,13 +63,9 @@ assign(paste0("grp_02_stan_ci_", ctx_ver), obj$enqueue_bulk(pars_ci, cross_valid
 
 ids <- c("TZ2012AIS-no_islands")
 types <- c("LOO", "SLOO")
-inf_models <- c("constant", "iid", "icar", "bym", "fck", "fik")
-fns <- list(constant_inla, iid_inla, besag_inla, bym2_inla, fck_inla, fik_inla)
+inf_models <- c("constant_inla", "iid_inla", "besag_inla", "bym2_inla", "fck_inla", "fik_inla")
 
 pars <- expand.grid("id" = ids, "type" = types, "inf_model" = inf_models)
-
-k <- length(ids) * length(types)
-pars$fn <- rep(fns, k)
 pars$ctx_ver <- ctx_ver
 
 purrr::pmap_df(pars, cross_validate_id)
