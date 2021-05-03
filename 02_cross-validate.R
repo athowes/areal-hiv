@@ -71,3 +71,18 @@ assign(paste0("grp_02_stan_zw_", ctx_ver), obj$enqueue_bulk(pars_zw, cross_valid
 
 assign(paste0("pars_02_stan_ci_", ctx_ver), pars_ci)
 assign(paste0("grp_02_stan_ci_", ctx_ver), obj$enqueue_bulk(pars_ci, cross_validate_sets, do_call = TRUE))
+
+# Special case: islands in Tanzania (no Stan so fit locally)
+
+ids <- c("TZ2012AIS-no_islands")
+types <- c("LOO", "SLOO")
+inf_models <- c("constant", "iid", "icar", "bym", "fck", "fik")
+fns <- list(constant_inla, iid_inla, besag_inla, bym2_inla, fck_inla, fik_inla)
+
+pars <- expand.grid("id" = ids, "type" = types, "inf_model" = inf_models)
+
+k <- length(ids) * length(types)
+pars$fn <- rep(fns, k)
+pars$ctx_ver <- ctx_ver
+
+purrr::pmap_df(pars, cross_validate_id)
