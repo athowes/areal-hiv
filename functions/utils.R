@@ -12,7 +12,8 @@ rename_df <- function(df) {
       "CI2012DHS" = "Cote d'Ivoire 2012 DHS", 
       "MW2015DHS" = "Malawi 2015 DHS",
       "TZ2012AIS" = "Tanzania 2012 AIS",
-      "ZW2015DHS" = "Zimbabwe 2015 DHS"
+      "TZ2012AIS-no-islands" = "Tanzania 2012 AIS (no islands)"
+      "ZW2015DHS" = "Zimbabwe 2015 DHS",
     )
   }
   
