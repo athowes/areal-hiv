@@ -22,7 +22,8 @@ ic_df <- do.call("rbind", lapply(fit_files, FUN = function(file) {
   )
   
   return(df)
-}))
+})) %>%
+  rename_df()
 
 # LOO, SLOO from cv
 cv_files <- list.files(
@@ -64,14 +65,10 @@ cv_id_df <- full_cv_df %>%
   group_by(geometry, inf_model, type, id) %>%
   summarise(n = n(), across(mse:lds, list(mean = mean, se = ~ sd(.x) / sqrt(length(.x)))))
 
-# This for tab_spanner_delim later on
-cv_df_wider <-  cv_df %>%
-  pivot_wider(names_from = type, values_from = mse_mean:lds_se, names_sep = ".")
-
-# Merging the two and tidying up
-df <- merge(rename_df(ic_df), cv_df_wider)
-
 # Full table format
+cv_df_wider <-  pivot_wider(cv_df, names_from = type, values_from = mse_mean:lds_se, names_sep = ".")
+df <- merge(ic_df, cv_df_wider)
+
 df %>%
   arrange(match(inf_model, c("Constant", "IID", "Besag", "BYM2", "FCK", "CK", "FIK", "IK"))) %>%
   arrange_at(1) %>%
