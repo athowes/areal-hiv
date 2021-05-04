@@ -24,7 +24,7 @@ rm(ids, inf_models, pars, i)
 # Special case: islands in Tanzania (no Stan so fit locally)
 
 # Create the data for without islands if it doesn't already exist
-if(!("TZ2012AIS-no_islands" %in% unique(hiv_surveys$survey_id))) {
+if(!("TZ2012AIS-no-islands" %in% unique(hiv_surveys$survey_id))) {
   hiv_surveys <- readRDS("data/hiv_surveys.rds")
   tz <- filter(hiv_surveys, survey_id == "TZ2012AIS")
   nb <- sf_to_nb(tz) # Neighbourhood list
@@ -32,13 +32,13 @@ if(!("TZ2012AIS-no_islands" %in% unique(hiv_surveys$survey_id))) {
   table(comp$comp.id) # The number of districts in each component
   is_mainland <- comp$comp.id == 1
   tz_no_islands <- tz[is_mainland, ] # Only those on the mainland
-  tz_no_islands$survey_id <- "TZ2012AIS-no_islands" # Change the ID so that fit_id works
+  tz_no_islands$survey_id <- "TZ2012AIS-no-islands" # Change the ID so that fit_id works
   hiv_surveys_appended <- rbind(hiv_surveys, tz_no_islands)
   assertthat::assert_that(nrow(hiv_surveys_appended) - nrow(hiv_surveys) == sum(is_mainland))
   saveRDS(hiv_surveys_appended, "data/hiv_surveys.rds")
 }
 
-ids <- c("TZ2012AIS-no_islands")
+ids <- c("TZ2012AIS-no-islands")
 inf_models <- c("constant_inla", "iid_inla", "besag_inla", "bym2_inla", "fck_inla", "fik_inla")
 
 pars <- expand.grid("id" = ids, "inf_model" = inf_models)

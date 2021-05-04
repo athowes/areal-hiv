@@ -61,7 +61,7 @@ assign(paste0("grp_02_stan_ci_", ctx_ver), obj$enqueue_bulk(pars_ci, cross_valid
 
 # Special case: islands in Tanzania (no Stan so fit locally)
 
-ids <- c("TZ2012AIS-no_islands")
+ids <- c("TZ2012AIS-no-islands")
 types <- c("LOO", "SLOO")
 inf_models <- c("constant_inla", "iid_inla", "besag_inla", "bym2_inla", "fck_inla", "fik_inla")
 
