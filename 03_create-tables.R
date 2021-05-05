@@ -93,4 +93,6 @@ fit_df <- do.call("rbind", lapply(fit_files, FUN = function(file) {
 }))
 
 # Supplementary material
-metric_table(df, "crps", latex = TRUE)
+df %>%
+  filter(geometry != "Tanzania 2012 AIS") %>%
+  metric_table("crps", latex = TRUE)
