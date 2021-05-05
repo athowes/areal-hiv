@@ -24,8 +24,8 @@ rm(ids, inf_models, pars, i)
 # Special case: islands in Tanzania (no Stan so fit locally)
 
 # Create the data for without islands if it doesn't already exist
+hiv_surveys <- readRDS("data/hiv_surveys.rds")
 if(!("TZ2012AIS-no-islands" %in% unique(hiv_surveys$survey_id))) {
-  hiv_surveys <- readRDS("data/hiv_surveys.rds")
   tz <- filter(hiv_surveys, survey_id == "TZ2012AIS")
   nb <- sf_to_nb(tz) # Neighbourhood list
   comp <- spdep::n.comp.nb(nb) # Connected components
