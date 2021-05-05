@@ -73,7 +73,7 @@ system("cd plots && lualatex compile_figB3.tex")
 # figB4 -------------------------------------------------------------------
 
 tikz(file = "plots/figB4.tex", width = 6.25, height = 8.5)
-scoropleth(cv_id_df, metric = "crps", g = "Zimbabwe 2015 DHS ", t = "LOO", sf = zw) + theme_adam_minimal
+scoropleth(cv_id_df, metric = "crps", g = "Zimbabwe 2015 DHS", t = "LOO", sf = zw) + theme_adam_minimal
 dev.off()
 
 system("cd plots && lualatex compile_figB4.tex")
