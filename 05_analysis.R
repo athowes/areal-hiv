@@ -1,3 +1,12 @@
+# Checking the BYM2 proportion posterior
+do.call("rbind", lapply(fit_files[str_detect(fit_files, "bym")], FUN = function(file) {
+  fit <- readRDS(file = paste0("data/", ctx_ver, "/fits/", file))
+  meta_data <- strsplit(file, '[/_.]')
+  df <- data.frame(name = meta_data[[1]][1], fit$summary.hyperpar["Phi for id", ])
+  rownames(df) <- NULL
+  return(df)
+}))
+
 # Comparison of model fit to Tanzania with and without the islands
 tanzania_only <- full_cv_df %>%
   filter(geometry %in% c("Tanzania 2012 AIS (no islands)", "Tanzania 2012 AIS"))
