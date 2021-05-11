@@ -32,10 +32,10 @@ dev.off()
 
 # fig62 -------------------------------------------------------------------
 
-tikz(file = "plots/fig62.tex", width = 6, height = 5)
+tikz(file = "plots/fig62.tex", width = 6, height = 5.5)
 full_cv_df %>%
   filter(geometry != "Tanzania 2012 AIS") %>%
-  boxplot(metric = "crps", title = "CRPS") + 
+  boxplot(metric = "crps", title = "CRPS", facet_type = TRUE) +
     theme_adam
 dev.off()
 
