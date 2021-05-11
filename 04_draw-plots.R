@@ -110,6 +110,11 @@ dev.off()
 
 system("cd plots && lualatex compile_figB8.tex")
 
+
+# Compression -------------------------------------------------------------
+
+system("sh scripts/compress_phd.sh")
+
 # Experimental ------------------------------------------------------------
 
 score_ladder(cv_id_df, metric = "crps", g = "2012 DHS Cote d'Ivoire", t = "LOO", sf = ci, level = 2)
