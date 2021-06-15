@@ -38,8 +38,7 @@ dynamite_plot <- function(df, metric, title) {
 }
 
 # Boxplots
-boxplot <- function(df, metric, title) {
-  
+boxplot <- function(df, metric, title, facet_type = FALSE) {
   .calc_boxplot_stat <- function(x) {
     coef <- 1.5
     n <- sum(!is.na(x))
@@ -53,14 +52,23 @@ boxplot <- function(df, metric, title) {
     return(stats)
   }
   
-  ggplot(df, aes(x = inf_model, y = .data[[metric]], fill = type)) +
+  base_plot <- ggplot(df, aes(x = inf_model, y = .data[[metric]], fill = type)) +
     stat_summary(fun.data = .calc_boxplot_stat, geom = "boxplot", position = position_dodge(), width = 0.5, alpha = 0.9, show.legend = FALSE) +
     stat_summary(fun = "mean", geom = "point", position = position_dodge(width = 0.5), alpha = 0.7, show.legend = FALSE) +
-    facet_wrap(~geometry, scales = "free", nrow = 2) +
     labs(x = "Inferential model", y = title, fill = "CV method") +
     scale_fill_manual(values = cbpalette) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
           legend.position = "bottom")
+  
+  if(facet_type) {
+    return(
+      base_plot + facet_grid(geometry ~ type, scales = "free", 
+                             labeller = labeller(geometry = label_wrap_gen(width = 17)))
+      # Note, can rotate labels with  + theme(strip.text.y = element_text(angle = 0))
+    )
+  } else {
+    return(base_plot + facet_wrap(~geometry, scales = "free", nrow = 2)) 
+  }
 }
 
 # Scoropleths
